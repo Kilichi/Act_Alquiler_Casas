@@ -1,21 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/main.css">
-    <title>USUARIOS</title>
+    <title>Usuarios · SIN FOTO NO HAY CASA</title>
 </head>
 <body>
-    <h1>VISTA DE USUARIOS</h1>
-    <h3>Selecciona algun usuario si quieres ver mas informacion sobre el</h3>
-    <ul>
-        <li><a href="../index.html">INICIO</a></li>
-        <li><a href="viviendas.html">VIVIENDAS</a></li>
-    </ul>
+    <header class="navbar">
+        <div class="navbar-inner">
+            <a class="brand" href="../index.html">
+                <span class="brand-name">SIN FOTO NO HAY CASA</span>
+            </a>
+            <ul class="nav">
+                <li><a href="usuarios.html">USUARIOS</a></li>
+                <li><a href="viviendas.html">VIVIENDAS</a></li>
+            </ul>
+        </div>
+    </header>
 
-    <h3 id="loading">Cargando usuarios....</h3>
-    <div id="users"></div>
-    <script src="../js/usuarios.js"></script>
+    <main class="page">
+        <h1>Usuarios</h1>
+        <h3>Selecciona algún usuario si quieres ver más información.</h3>
+        <h3 id="loading">Cargando usuarios....</h3>
+        <div id="users"></div>
+        <script src="../js/usuarios.js"></script>
+    </main>
 </body>
 </html>

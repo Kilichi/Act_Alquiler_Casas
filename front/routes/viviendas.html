@@ -1,18 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/main.css">
-    <title>VIVIENDAS</title>
+    <title>Viviendas · SIN FOTO NO HAY CASA</title>
 </head>
 <body>
-    <h1>VISTA DE VIVIENDAS</h1>
-    <h3>Selecciona alguna vivienda si quieres ver mas informacion sobre el</h3>
-    <ul>
-        <li><a href="../index.html">INICIO</a></li>
-        <li><a href="usuarios.html">USUARIOS</a></li>
-    </ul>
-    <script src="../js/viviendas.js"></script>
+    <header class="navbar">
+        <div class="navbar-inner">
+            <a class="brand" href="../index.html">
+                <span class="brand-name">SIN FOTO NO HAY CASA</span>
+            </a>
+            <ul class="nav">
+                <li><a href="usuarios.html">USUARIOS</a></li>
+                <li><a href="viviendas.html">VIVIENDAS</a></li>
+            </ul>
+        </div>
+    </header>
+    <main class="page">
+        <h1>Viviendas</h1>
+        <h3>Selecciona alguna vivienda si quieres ver más información.</h3>
+        <h3 id="loading">Cargando viviendas....</h3>
+        <div id="viviendas"></div>
+        <script src="../js/viviendas.js"></script>
+    </main>
 </body>
 </html>

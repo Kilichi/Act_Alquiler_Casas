@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/main.css">
+    <title>Usuario · SIN FOTO NO HAY CASA</title>
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="navbar-inner">
+            <a class="brand" href="../index.html">
+                <span class="brand-name">SIN FOTO NO HAY CASA</span>
+            </a>
+            <ul class="nav">
+                <li><a href="usuarios.html">USUARIOS</a></li>
+                <li><a href="viviendas.html">VIVIENDAS</a></li>
+            </ul>
+        </div>
+    </header>
+
+    
+    <main class="page">
+        <div class="card">
+            <h2 class="card-title" id="nombre">Cargando...</h2>
+            <span class="card-subtitle badge bg-primary" id="perfil">Cargando...</span>
+
+            <div class="card-text"><strong>NIF: </strong><span id="nif">Cargando...</span></div>
+
+            <div id="seccion-vivienda">
+                <div class="card-text">
+                    <strong>Vivienda: </strong>
+                    <span id="vivienda-status">Cargando...</span>
+                </div>
+                <div id="detalles-vivienda" class="details-block"></div>
+            </div>
+        </div>
+    </main>
+
+
+    <script src="../js/usuarioEspecifico.js"></script>
+</body>
+
+</html>

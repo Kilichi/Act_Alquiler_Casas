@@ -1,5 +1,3 @@
-console.log("cargando index usuarios")
-
 let TOTAL_USERS = 0
 const loading = document.getElementById("loading")
 
@@ -16,8 +14,7 @@ class Usuario {
         this.createCard();
     }
 
- 
-    
+
     createCard() {
         const container = document.getElementById('users');
 
@@ -39,7 +36,7 @@ class Usuario {
 
         const title = document.createElement('h5');
         title.classList.add('card-title', 'mb-0');
-        title.textContent = `${this.nombre} ${this.apellidos}`;
+        title.textContent = `${this.nombre} ${this.apellidos} | @${this.username}`;
 
         const badge = document.createElement('span');
         badge.classList.add('badge');
@@ -47,27 +44,16 @@ class Usuario {
         if (this.profile === 'ADMIN') badge.classList.add('bg-danger');
         else if (this.profile === 'GUEST') badge.classList.add('bg-info');
         else badge.classList.add('bg-primary');
-        badge.textContent = this.profile;
+        badge.textContent = `${this.profile}`;
 
         headerDiv.append(title, badge);
 
-        // --- Username ---
-        const subtitle = document.createElement('h6');
-        subtitle.classList.add('card-subtitle', 'mb-3', 'text-muted');
-        subtitle.textContent = `@${this.username}`;
-
-        // --- Detalles (Email y NIF) ---
+        // --- Detalles (Email ) ---
         const emailPara = document.createElement('p');
         emailPara.classList.add('card-text', 'mb-1', 'small');
         const emailLabel = document.createElement('strong');
         emailLabel.textContent = "Email: ";
         emailPara.append(emailLabel, this.email);
-
-        const nifPara = document.createElement('p');
-        nifPara.classList.add('card-text', 'small');
-        const nifLabel = document.createElement('strong');
-        nifLabel.textContent = "NIF: ";
-        nifPara.append(nifLabel, this.nif);
 
         // --- Botón de Acción ---
         const btn = document.createElement('button');
@@ -76,7 +62,7 @@ class Usuario {
         btn.onclick = () => showUserInfo(this.id);
 
         // 4. Ensamblar todas las piezas
-        cardBody.append(headerDiv, subtitle, emailPara, nifPara, btn);
+        cardBody.append(headerDiv, emailPara, btn);
         card.appendChild(cardBody);
         col.appendChild(card);
 
@@ -88,7 +74,7 @@ class Usuario {
 }
 
 const showUserInfo = (id) => {
-    console.log("ver info de la id: "+id)
+     window.location.href = `usuarioEspecifico.html?id=${id}`
 }
 
 const loadUsers = (users) => {
