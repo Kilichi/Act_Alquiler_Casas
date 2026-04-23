@@ -3,8 +3,34 @@ const elNif = document.getElementById("nif");
 const elViviendaStatus = document.getElementById("vivienda-status");
 const elDetallesVivienda = document.getElementById("detalles-vivienda");
 const elPerfil = document.getElementById("perfil");
+const userBody = document.getElementById("userBody")
 
-function cargarDetallesModulo() {
+const eliminarUsuario = (userId) => {
+    const confirmar = confirm("¿Estás seguro de que deseas eliminar a este usuario? Esta acción no se puede deshacer.");
+    if (confirmar) {
+        fetch(`http://127.0.0.1:4050/users/${userId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data === true) {
+                alert("Eliminaste al usuario correctamente");
+            } else {
+                alert("Error al eliminar al usuario");
+            }
+            window.location.href = "../index.html";
+        })
+        .catch(error => {
+            console.error("Error en la petición:", error);
+            alert("No se pudo conectar con el servidor");
+        });
+    }
+}
+
+function cargarDetallesUsuario() {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get("id");
 
@@ -44,8 +70,21 @@ function cargarDetallesModulo() {
                 elViviendaStatus.innerText = "SIN VIVIENDA ASIGNADA";
                 elDetallesVivienda.innerHTML = "";
             }
+
+            const actions = document.createElement("div");
+            actions.classList.add("actions");
+
+            const button = document.createElement("button");
+            button.classList.add("btn", "btn-danger");
+            button.type = "button";
+            button.textContent = "Eliminar usuario";
+            button.onclick = () => eliminarUsuario(user.id);
+
+            actions.appendChild(button);
+            userBody.appendChild(actions);
         })
         .catch(error => console.error("Error cargando usuario:", error));
+    
 }
 
-cargarDetallesModulo();
+cargarDetallesUsuario();

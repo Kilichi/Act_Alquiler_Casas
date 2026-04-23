@@ -3,6 +3,32 @@ const elEstado = document.getElementById("estado");
 const elPrecio = document.getElementById("precio");
 const elHabitaciones = document.getElementById("habitaciones");
 const elListaPropietarios = document.getElementById("lista-propietarios");
+const elViendaEspecificaBody = document.getElementById("viviendaEspecificaBody")
+
+const eliminarVivienda = (viviendaId) => {
+    const confirmar = confirm("¿Estás seguro de que deseas eliminar esta vivienda? Esta acción no se puede deshacer.");
+    if (confirmar) {
+        fetch(`http://127.0.0.1:4050/viviendas/${viviendaId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data === true) {
+                alert("Eliminaste la vivienda correctamente");
+            } else {
+                alert("Error al eliminar la vivienda usuario");
+            }
+            window.location.href = "../index.html";
+        })
+        .catch(error => {
+            console.error("Error en la petición:", error);
+            alert("No se pudo conectar con el servidor");
+        });
+    }
+}
 
 function cargarDetallesVivienda() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -24,6 +50,18 @@ function cargarDetallesVivienda() {
 
             // 2. Buscar a los dueños
             cargarPropietarios(id);
+
+            const actions = document.createElement("div");
+            actions.classList.add("actions");
+
+            const button = document.createElement("button");
+            button.classList.add("btn", "btn-danger");
+            button.type = "button";
+            button.textContent = "Eliminar vivienda";
+            button.onclick = () => eliminarVivienda(casa.id);
+
+            actions.appendChild(button);
+            elViendaEspecificaBody.appendChild(actions);
         })
         .catch(error => console.error("Error:", error));
 }
@@ -39,6 +77,7 @@ function cargarPropietarios(viviendaId) {
                 const idU = u.vivienda.id !== undefined ? u.vivienda.id : u.vivienda;
                 return idU == viviendaId;
             });
+            console.log("peste")
 
             if (propietarios.length > 0) {
                 elListaPropietarios.innerHTML = propietarios.map(u => `
