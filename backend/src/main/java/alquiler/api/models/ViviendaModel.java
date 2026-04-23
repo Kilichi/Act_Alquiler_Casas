@@ -2,8 +2,10 @@ package alquiler.api.models;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 @Entity
 @Table(name = "viviendas") // Tabla correcta
 public class ViviendaModel {
@@ -16,11 +18,11 @@ public class ViviendaModel {
     private String direccion; // String para texto
 
     @Column(name = "precio")
-    private double precio;
+    private Double precio;
 
     @Column(name = "disponible")
-    private boolean disponible;
+    private Boolean disponible;
 
     @Column(name = "numero_habitaciones")
-    private int numeroHabitaciones;
+    private Integer numeroHabitaciones;
 }
