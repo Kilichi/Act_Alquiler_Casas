@@ -5,6 +5,10 @@ const elHabitaciones = document.getElementById("habitaciones");
 const elListaPropietarios = document.getElementById("lista-propietarios");
 const elViendaEspecificaBody = document.getElementById("viviendaEspecificaBody")
 
+const editarVivienda = (id) => {
+    window.location.href = `./editarCasa.html?id=${id}`
+}
+
 const eliminarVivienda = (viviendaId) => {
     const confirmar = confirm("¿Estás seguro de que deseas eliminar esta vivienda? Esta acción no se puede deshacer.");
     if (confirmar) {
@@ -19,7 +23,7 @@ const eliminarVivienda = (viviendaId) => {
             if (data === true) {
                 alert("Eliminaste la vivienda correctamente");
             } else {
-                alert("Error al eliminar la vivienda usuario");
+                alert("Error al eliminar la vivienda");
             }
             window.location.href = "../index.html";
         })
@@ -60,7 +64,14 @@ function cargarDetallesVivienda() {
             button.textContent = "Eliminar vivienda";
             button.onclick = () => eliminarVivienda(casa.id);
 
+            const buttonEditar = document.createElement("button");
+            buttonEditar.classList.add("btn", "btn-danger");
+            buttonEditar.type = "button";
+            buttonEditar.textContent = "Editar vivienda";
+            buttonEditar.onclick = () => editarVivienda(casa.id);
+
             actions.appendChild(button);
+            actions.appendChild(buttonEditar)
             elViendaEspecificaBody.appendChild(actions);
         })
         .catch(error => console.error("Error:", error));

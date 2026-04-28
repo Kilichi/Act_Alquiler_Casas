@@ -466,3 +466,8 @@ h3 {
     border-color: rgba(34, 197, 94, 0.30);
     background: rgba(34, 197, 94, 0.08);
 }
+
+option {
+    color: black !important;
+    background-color: rgba(255, 255, 255, 0.03) !important;
+}

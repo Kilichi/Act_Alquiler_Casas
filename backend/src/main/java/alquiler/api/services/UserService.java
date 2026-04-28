@@ -1,7 +1,9 @@
 package alquiler.api.services;
 
 import alquiler.api.models.UserModel;
+import alquiler.api.models.ViviendaModel;
 import alquiler.api.repositories.IUserRepository;
+import alquiler.api.repositories.IViviendaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,9 @@ public class UserService implements IUserService {
 
     @Autowired
     IUserRepository userRepository;
+
+    @Autowired
+    IViviendaRepository viviendaRepository;
 
     @Override
     public UserModel createUser(UserModel usuario) {
@@ -53,8 +58,15 @@ public class UserService implements IUserService {
             if (usuario.getPassword() != null) {
                 dbUser.setPassword(usuario.getPassword());
             }
-            if (usuario.getVivienda() != null) {
-                dbUser.setVivienda(usuario.getVivienda());
+            if (usuario.getVivienda() == null) {
+                dbUser.setVivienda(null);
+            } else {
+                Long idVivienda = usuario.getVivienda().getId();
+                if (idVivienda != null) {
+                    dbUser.setVivienda(usuario.getVivienda());
+                } else {
+                    dbUser.setVivienda(null);
+                }
             }
             if(usuario.getProfile() != null) {
                 dbUser.setProfile(usuario.getProfile());

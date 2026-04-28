@@ -5,6 +5,11 @@ const elDetallesVivienda = document.getElementById("detalles-vivienda");
 const elPerfil = document.getElementById("perfil");
 const userBody = document.getElementById("userBody")
 
+const editarUsuario = (userId) => {
+    window.location.href = `./editarUsuario.html?id=${userId}`
+
+}
+
 const eliminarUsuario = (userId) => {
     const confirmar = confirm("¿Estás seguro de que deseas eliminar a este usuario? Esta acción no se puede deshacer.");
     if (confirmar) {
@@ -46,12 +51,13 @@ function cargarDetallesUsuario() {
             }
 
             if (user.vivienda) {
-                fetch(`http://127.0.0.1:4050/viviendas/${user.vivienda.id || user.vivienda}`)
+                const viviendaId = user.vivienda?.id !== undefined ? user.vivienda.id : user.vivienda;
+                fetch(`http://127.0.0.1:4050/viviendas/${viviendaId}`)
                     .then(res => res.json())
                     .then(casa => {
                         elViviendaStatus.innerHTML =
                             `
-                                        <a class="inline-link" href="viviendaEspecifica.html?id=${user.vivienda.id}">${casa.direccion}</a>
+                                        <a class="inline-link" href="viviendaEspecifica.html?id=${viviendaId}">${casa.direccion}</a>
                                     `
                             ;
 
@@ -80,7 +86,14 @@ function cargarDetallesUsuario() {
             button.textContent = "Eliminar usuario";
             button.onclick = () => eliminarUsuario(user.id);
 
+            const editButton = document.createElement("button");
+            editButton.classList.add("btn", "btn-danger");
+            editButton.type = "button";
+            editButton.textContent = "Editar usuario";
+            editButton.onclick = () => editarUsuario(user.id);
+
             actions.appendChild(button);
+            actions.appendChild(editButton);
             userBody.appendChild(actions);
         })
         .catch(error => console.error("Error cargando usuario:", error));

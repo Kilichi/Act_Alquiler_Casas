@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/main.css">
-    <title>Nueva vivienda · SIN FOTO NO HAY CASA</title>
+    <title>Editar Vivienda · SIN FOTO NO HAY CASA</title>
 </head>
 <body>
     <header class="navbar">
@@ -21,15 +21,15 @@
 
     <main class="page">
         <div class="card form-card">
-            <h2 class="card-title">Crear vivienda</h2>
+            <h2 class="card-title">Editar vivienda</h2>
             <p class="card-subtitle muted">Introduce los datos del inmueble y guarda.</p>
 
             <div id="formAlert" class="alert" style="display:none;"></div>
 
-            <form id="nuevaCasaForm" class="form" autocomplete="off">
+            <form id="nuevaCasaForm" class="form" autocomplete="off" onsubmit="saveHouseChanges(event)">
                 <div class="field">
                     <label for="direccion">Dirección</label>
-                    <input id="direccion" name="direccion" type="text" placeholder="Ej. Calle Mayor 12, 3ºB" required />
+                    <input id="direccion" id="direccion" name="direccion" type="text" placeholder="Ej. Calle Mayor 12, 3ºB" required />
                 </div>
 
                 <div class="field">
@@ -43,16 +43,8 @@
                 </div>
 
                 <div class="field">
-                    <label for="profile">Perfil</label>
-                    <select id="profile" name="profile" required>
-                    </select>
-                </div>
-
-                <div class="field">
                     <label for="disponible">Estado</label>
                     <select id="disponible" name="disponible" required>
-                        <option value="true" selected>Disponible</option>
-                        <option value="false">Alquilada</option>
                     </select>
                 </div>
 
@@ -63,7 +55,7 @@
             </form>
         </div>
 
-        <script src="../js/nuevaCasa.js"></script>
+        <script src="../js/editarCasa.js"></script>
     </main>
 </body>
 </html>
