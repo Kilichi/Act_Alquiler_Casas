@@ -1,13 +1,15 @@
 package alquiler.api.controllers;
 
 import alquiler.api.models.UserModel;
-import alquiler.api.models.ViviendaModel;
 import alquiler.api.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -18,8 +20,17 @@ public class UserController {
     private IUserService userService;
 
     @PutMapping
-    public UserModel addNewUser(@RequestBody UserModel usuarioNuevo) {
-        return userService.createUser(usuarioNuevo);
+    public ResponseEntity<?> addNewUser(@RequestBody UserModel usuarioNuevo) {
+        try {
+            UserModel nuevoUsuario = userService.createUser(usuarioNuevo);
+            // Devolvemos 201 Created y el objeto creado
+            return ResponseEntity.status(HttpStatus.CREATED).body(nuevoUsuario);
+        } catch (IllegalArgumentException e) {
+            // Devolvemos 400 Bad Request y un mapa con el mensaje para el front
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(error);
+        }
     }
 
     @GetMapping

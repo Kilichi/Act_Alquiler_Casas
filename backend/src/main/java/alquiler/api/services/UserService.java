@@ -4,6 +4,7 @@ import alquiler.api.models.UserModel;
 import alquiler.api.models.ViviendaModel;
 import alquiler.api.repositories.IUserRepository;
 import alquiler.api.repositories.IViviendaRepository;
+import alquiler.api.utils.PasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,9 @@ public class UserService implements IUserService {
 
     @Override
     public UserModel createUser(UserModel usuario) {
+        if (!PasswordValidator.esPasswordValida(usuario.getPassword())) {
+            return null;
+        }
         return userRepository.save(usuario);
     }
 
@@ -37,6 +41,7 @@ public class UserService implements IUserService {
 
     @Override
     public UserModel updateUser(long id, UserModel usuario) {
+        boolean constraseniaValida = false;
         Optional<UserModel> usuarioExistente = userRepository.findById(id);
         if (usuarioExistente.isPresent()) {
             UserModel dbUser = usuarioExistente.get();
@@ -56,7 +61,11 @@ public class UserService implements IUserService {
                 dbUser.setEmail(usuario.getEmail());
             }
             if (usuario.getPassword() != null) {
-                dbUser.setPassword(usuario.getPassword());
+                if (!PasswordValidator.esPasswordValida(usuario.getPassword())) {
+                    throw new IllegalArgumentException("La contraseña no cumple los requisitos de seguridad.");
+                } else {
+                    dbUser.setPassword(usuario.getPassword());
+                }
             }
             if (usuario.getVivienda() == null) {
                 dbUser.setVivienda(null);

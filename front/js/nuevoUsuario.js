@@ -76,24 +76,24 @@ form?.addEventListener("submit", async (e) => {
   }
 
   try {
-    const res = await fetch("http://127.0.0.1:4050/users", {
+    fetch("http://127.0.0.1:4050/users", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
-    });
-
-    if (!res.ok) {
-      throw new Error(`HTTP ${res.status}`);
-    }
-
-    const created = await res.json();
-    setAlert("success", `Usuario creado (id: ${created?.id ?? "?"}). Redirigiendo...`);
-    setTimeout(() => {
-      window.location.href = "usuarios.html";
+    }).then(e => e.json)
+    .then((res) => {
+      setAlert("success", `Usuario creado (id: ${res?.id ?? "?"}). Redirigiendo...`);
+      setTimeout(() => {
+        window.location.href = "usuarios.html";
     }, 700);
+    })
+    .catch(error => {
+      console.log(error)
+
+    })
   } catch (err) {
     console.error(err);
-    setAlert("error", "No se pudo crear el usuario. Revisa que el backend esté levantado.");
+      setAlert("error", "No se pudo crear la vivienda. Revisa los datos introducidos");
   }
 });
 

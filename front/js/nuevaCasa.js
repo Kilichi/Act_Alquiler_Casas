@@ -65,7 +65,7 @@ form?.addEventListener("submit", async (e) => {
     }, 700);
   } catch (err) {
     console.error(err);
-    setAlert("error", "No se pudo crear la vivienda. Revisa que el backend esté levantado.");
+      setAlert("error", "No se pudo crear la vivienda. Revisa los datos introducidos");
   }
 });
 
