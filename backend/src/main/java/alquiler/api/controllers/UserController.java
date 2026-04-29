@@ -23,10 +23,8 @@ public class UserController {
     public ResponseEntity<?> addNewUser(@RequestBody UserModel usuarioNuevo) {
         try {
             UserModel nuevoUsuario = userService.createUser(usuarioNuevo);
-            // Devolvemos 201 Created y el objeto creado
             return ResponseEntity.status(HttpStatus.CREATED).body(nuevoUsuario);
         } catch (IllegalArgumentException e) {
-            // Devolvemos 400 Bad Request y un mapa con el mensaje para el front
             Map<String, String> error = new HashMap<>();
             error.put("error", e.getMessage());
             return ResponseEntity.badRequest().body(error);

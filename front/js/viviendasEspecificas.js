@@ -1,3 +1,7 @@
+// Constantes
+
+import { API_BASE_URL } from "../utils/passwordValidator.js";
+
 const elDireccion = document.getElementById("direccion");
 const elEstado = document.getElementById("estado");
 const elPrecio = document.getElementById("precio");
@@ -5,14 +9,12 @@ const elHabitaciones = document.getElementById("habitaciones");
 const elListaPropietarios = document.getElementById("lista-propietarios");
 const elViendaEspecificaBody = document.getElementById("viviendaEspecificaBody")
 
-const editarVivienda = (id) => {
-    window.location.href = `./editarCasa.html?id=${id}`
-}
+// Funcion para eliminar vivienda
 
 const eliminarVivienda = (viviendaId) => {
     const confirmar = confirm("¿Estás seguro de que deseas eliminar esta vivienda? Esta acción no se puede deshacer.");
     if (confirmar) {
-        fetch(`http://127.0.0.1:4050/viviendas/${viviendaId}`, {
+        fetch(`${API_BASE_URL}/viviendas/${viviendaId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -41,7 +43,7 @@ function cargarDetallesVivienda() {
     if (!id) return;
 
     // 1. Obtener la información de la vivienda
-    fetch(`http://127.0.0.1:4050/viviendas/${id}`)
+    fetch(`${API_BASE_URL}/viviendas/${id}`)
         .then(res => res.json())
         .then(casa => {
             elDireccion.innerText = casa.direccion;
@@ -68,7 +70,7 @@ function cargarDetallesVivienda() {
             buttonEditar.classList.add("btn", "btn-danger");
             buttonEditar.type = "button";
             buttonEditar.textContent = "Editar vivienda";
-            buttonEditar.onclick = () => editarVivienda(casa.id);
+            buttonEditar.onclick = () => window.location.href = `./editarCasa.html?id=${id}`;
 
             actions.appendChild(button);
             actions.appendChild(buttonEditar)
@@ -78,7 +80,7 @@ function cargarDetallesVivienda() {
 }
 
 function cargarPropietarios(viviendaId) {
-    fetch(`http://127.0.0.1:4050/users`)
+    fetch(`${API_BASE_URL}/users`)
         .then(res => res.json())
         .then(usuarios => {
             // Filtramos usuarios que posean esta vivienda
@@ -88,21 +90,19 @@ function cargarPropietarios(viviendaId) {
                 const idU = u.vivienda.id !== undefined ? u.vivienda.id : u.vivienda;
                 return idU == viviendaId;
             });
-            console.log("peste")
 
             if (propietarios.length > 0) {
                 elListaPropietarios.innerHTML = propietarios.map(u => `
-                            <div class="owner-row">
-                                <div class="owner-meta">
-                                    <div class="owner-name">${u.nombre} ${u.apellidos}</div>
-                                    <div class="owner-email">${u.email}</div>
-                                </div>
-                                <a href="usuarioEspecifico.html?id=${u.id}" class="btn btn-sm">Ficha Dueño</a>
-                            </div>
-                        `).join('');
+                    <div class="owner-row">
+                        <div class="owner-meta">
+                            <div class="owner-name">${u.nombre} ${u.apellidos}</div>
+                            <div class="owner-email">${u.email}</div>
+                        </div>
+                        <a href="usuarioEspecifico.html?id=${u.id}" class="btn btn-sm">Ficha Dueño</a>
+                    </div>
+                `).join('');
             } else {
-                elListaPropietarios.innerHTML = `
-                            <p class="muted"><em>No hay propietarios registrados para esta vivienda.</em></p>`;
+                elListaPropietarios.innerHTML = `<p class="muted"><em>No hay propietarios registrados para esta vivienda.</em></p>`;
             }
         })
         .catch(err => {

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/main.css">
     <title>Editar Vivienda · SIN FOTO NO HAY CASA</title>
 </head>
+
 <body>
     <header class="navbar">
         <div class="navbar-inner">
@@ -26,10 +28,11 @@
 
             <div id="formAlert" class="alert" style="display:none;"></div>
 
-            <form id="nuevaCasaForm" class="form" autocomplete="off" onsubmit="saveHouseChanges(event)">
+            <form id="nuevaCasaForm" class="form" autocomplete="off">
                 <div class="field">
                     <label for="direccion">Dirección</label>
-                    <input id="direccion" id="direccion" name="direccion" type="text" placeholder="Ej. Calle Mayor 12, 3ºB" required />
+                    <input id="direccion" id="direccion" name="direccion" type="text"
+                        placeholder="Ej. Calle Mayor 12, 3ºB" required />
                 </div>
 
                 <div class="field">
@@ -39,7 +42,8 @@
 
                 <div class="field">
                     <label for="numeroHabitaciones">Número de habitaciones</label>
-                    <input id="numeroHabitaciones" name="numeroHabitaciones" type="number" min="0" step="1" placeholder="2" required />
+                    <input id="numeroHabitaciones" name="numeroHabitaciones" type="number" min="0" step="1"
+                        placeholder="2" required />
                 </div>
 
                 <div class="field">
@@ -55,7 +59,8 @@
             </form>
         </div>
 
-        <script src="../js/editarCasa.js"></script>
+        <script type="module" src="../js/editarCasa.js"></script>
     </main>
 </body>
+
 </html>

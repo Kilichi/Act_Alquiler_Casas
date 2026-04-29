@@ -1,15 +1,15 @@
-let TOTAL_VIVIENDAS = 0
+import { API_BASE_URL } from "../utils/passwordValidator.js";
+
 const loading = document.getElementById("loading")
 
 class Vivienda {
+
     constructor(direccion, disponible, id, numeroHabitaciones, precio) {
         this.direccion = direccion;
         this.disponible = disponible;
         this.id = id;
         this.numeroHabitaciones = numeroHabitaciones;
         this.precio = precio;
-        
-        TOTAL_VIVIENDAS++;
         this.createCard();
     }
 
@@ -65,7 +65,7 @@ class Vivienda {
         const btn = document.createElement('button');
         btn.classList.add('btn', 'btn-sm', 'btn-outline-primary', 'w-100', 'mt-3');
         btn.textContent = "Ver Detalles del Inmueble";
-        btn.onclick = () => showViviendaInfo(this.id);
+        btn.onclick = () => window.location.href = `viviendaEspecifica.html?id=${this.id}`;;
 
         // 4. Ensamblar
         cardBody.append(headerDiv, precioPara, habPara, btn);
@@ -75,25 +75,18 @@ class Vivienda {
         // 5. Inyectar
         container.appendChild(col);
     }
-}
 
-const showViviendaInfo = (id) => {
-    window.location.href = `viviendaEspecifica.html?id=${id}`;
-}
-
-const loadViviendas = (viviendas) => {
-    viviendas.forEach(v => {
-        new Vivienda(v.direccion, v.disponible, v.id, v.numeroHabitaciones, v.precio);
-    });
-    
-    if(loading) loading.style.display = "none";
 }
 
 const loadInfo = () => {
-    fetch('http://127.0.0.1:4050/viviendas')
+    fetch(`${API_BASE_URL}/viviendas`)
     .then(response => response.json())
-    .then(dataJSON => {
-        loadViviendas(dataJSON);
+    .then(viviendas => {
+        viviendas.forEach(v => {
+            new Vivienda(v.direccion, v.disponible, v.id, v.numeroHabitaciones, v.precio);
+        });
+        
+        if(loading) loading.style.display = "none";
     })
     .catch(err => console.error("Error cargando viviendas:", err));
 }

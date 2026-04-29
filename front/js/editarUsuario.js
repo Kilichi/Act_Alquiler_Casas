@@ -1,104 +1,26 @@
-const formElement = document.getElementById('editUserForm')
+// Imports
+
+import { validatePassword, setAlert, clearAlert, normalizeNif, PERFILES, API_BASE_URL } from '../utils/passwordValidator.js';
+
+// Constantes
+
 const apellidos = document.getElementById('apellidos')
 const username = document.getElementById('username')
 const nif = document.getElementById('nif')
 const email = document.getElementById('email')
 const password = document.getElementById('password')
-const profile = document.getElementById("profile")
-const viviendaId = document.getElementById("viviendaId")
 const nombre = document.getElementById("nombre")
 const perfil = document.getElementById("profile")
-const perfiles = ["USER", "ADMIN", "GUEST"]
 const vivienda = document.getElementById("viviendaId")
-let idUsuario;
 const alertBox = document.getElementById("formAlert");
+const idUsuario = new URLSearchParams(window.location.search).get("id")
 
-const setAlert = (type, message) => {
-  if (!alertBox) return;
-  alertBox.className = `alert ${type === "error" ? "alert-error" : "alert-success"}`;
-  alertBox.textContent = message;
-  alertBox.style.display = "block";
-};
+const onFormSubmit = (event) => {
+    event.preventDefault();
 
-const clearAlert = () => {
-  if (!alertBox) return;
-  alertBox.style.display = "none";
-  alertBox.textContent = "";
-  alertBox.className = "alert";
-};
-
-
-const loadViviendaSelector = (idViviendaUsuario) => {
-    fetch(`http://localhost:4050/viviendas`)
-        .then(response => response.json())
-        .then(data => {
-            let opciones = `<option value="null" ${!idViviendaUsuario ? 'selected' : ''}>-- SIN VIVIENDA ASIGNADA --</option>`;
-
-            data.forEach(v => {
-                const isSelected = (v.id == idViviendaUsuario) ? 'selected' : '';
-                opciones += `<option value="${v.id}" ${isSelected}>${v.direccion}</option>`;
-            });
-
-            vivienda.innerHTML = opciones;
-        })
-        .catch(error => {
-            console.error(error);
-            alert("No se pudo conectar con el servidor");
-        });
-}
-
-const loadPerfilSelector = (profile) => {
-	perfiles.map(perfilArray => {
-		let selected = profile == perfilArray ? "selected" : "";
-		perfil.innerHTML += `
-        	<option value="${perfilArray}" ${selected} >${perfilArray}</option>
-      	`
-	})
-}
-
-const loadUserData = (inputData) => {
-	apellidos.value = inputData.apellidos
-	username.value = inputData.username
-	nif.value = inputData.nif
-	email.value = inputData.email
-	password.value = inputData.password
-	nombre.value = inputData.nombre
-	loadPerfilSelector(inputData.profile)
-
-	const viviendaId = parseInt(inputData?.vivienda?.id, 0) || 0;
-	if (viviendaId > 0) {
-		loadViviendaSelector(viviendaId);
-	} else {
-		loadViviendaSelector(false);
-	}
-
-}
-
-const loadUserDetails = (id) => {
-	fetch(`http://localhost:4050/users/${id}`)
-		.then(response => response.json())
-		.then(data => {
-			loadUserData(data)
-		})
-}
-
-
-const editUserLoadForm = () => {
-	const urlParams = new URLSearchParams(window.location.search)
-	idUsuario = urlParams.get("id")
-	loadUserDetails(idUsuario)
-}
-
-const normalizeNif = (nif) => (nif || "").trim().toUpperCase();
-
-
-const onFormSubmit = (e) => {
-	
-    e.preventDefault(); 
-
-    const data = new FormData(e.currentTarget);
-    
+    const data = new FormData(event.currentTarget);
     const viviendaIdRaw = (data.get("viviendaId") || "").toString().trim();
+
     const payload = {
         nombre: (data.get("nombre") || "").toString().trim(),
         apellidos: (data.get("apellidos") || "").toString().trim(),
@@ -109,37 +31,90 @@ const onFormSubmit = (e) => {
         profile: (data.get("profile") || "USER").toString(),
     };
 
-    // El backend actual espera `vivienda` como objeto (UserModel.vivienda).
-    // Nota: con el backend actual NO se puede "desasignar" enviando null (se ignora),
-    // así que si se elige "Eliminar vivienda" avisamos y no enviamos nada.
-    if (viviendaIdRaw && viviendaIdRaw.toLowerCase() !== "null") {
-      payload.vivienda = { id: Number(viviendaIdRaw) };
-    } else if (viviendaIdRaw.toLowerCase() === "null") {
-      payload.vivienda = { id: null }
+    if (!validatePassword(payload.password)) {
+        setAlert("error", "La contraseña no cumple los requisitos: (Al menos una mayúscula, una minúscula, un número y un carácter especial).", alertBox);
+        return;
     }
 
-    fetch(`http://127.0.0.1:4050/users/${idUsuario}`, {
+    if (viviendaIdRaw && viviendaIdRaw.toLowerCase() !== "null") {
+        payload.vivienda = { id: Number(viviendaIdRaw) };
+    } else if (viviendaIdRaw.toLowerCase() === "null") {
+        payload.vivienda = { id: null }
+    }
+
+    fetch(`${API_BASE_URL}/users/${idUsuario}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
     })
-    .then((res) => {
-        if (!res.ok) {
-            throw new Error(`HTTP ${res.status}`);
-        }
-        return res.json();
-    })
-    .then((created) => {
-        setAlert("success", `Usuario actualizado (id: ${created?.id ?? "?"}). Redirigiendo...`);
+    .then(res => res.json())
+    .then(usuario => {
+        setAlert("success", `Usuario actualizado (id: ${usuario.id}). Redirigiendo...`, alertBox);
         setTimeout(() => {
-			window.location.href = "./usuarios.html";
-		}, 700);
+            window.location.href = "./usuarios.html";
+        }, 700);
     })
     .catch((err) => {
         console.error(err);
-        setAlert("error", "No se pudo actualizar el usuario.");
+        setAlert("error", "No se pudo actualizar el usuario.", alertBox);
     });
 };
 
 
+document.getElementById("editUserForm").addEventListener("submit", onFormSubmit)
+
+
+// Cargar selector viviendas
+
+const cargarViviendas = (idViviendaUsuario) => {
+    fetch(`${API_BASE_URL}/viviendas`)
+        .then(response => response.json())
+        .then(data => {
+            vivienda.innerHTML = `<option value="null" ${!idViviendaUsuario ? 'selected' : ''}>-- SIN VIVIENDA ASIGNADA --</option>`;
+            data.forEach(v => {
+                const isSelected = (v.id == idViviendaUsuario) ? 'selected' : '';
+                vivienda.innerHTML += `<option value="${v.id}" ${isSelected}>${v.direccion}</option>`;
+            });
+
+
+        })
+        .catch(() => {
+            setAlert("error", "Error al cargar las viviendas...")
+        });
+}
+
+
+// Introducir valores al DOM
+
+const loadUserData = (inputData) => {
+    apellidos.value = inputData.apellidos
+    username.value = inputData.username
+    nif.value = inputData.nif
+    email.value = inputData.email
+    password.value = inputData.password
+    nombre.value = inputData.nombre
+    PERFILES.map(perfilArray => {
+        let selected = inputData.profile == perfilArray ? "selected" : "";
+        perfil.innerHTML += `
+        	<option value="${perfilArray}" ${selected} >${perfilArray}</option>
+      	`
+    })
+    cargarViviendas(viviendaId);
+
+}
+
+// Onload funcion
+
+const editUserLoadForm = () => {
+    clearAlert(alertBox)
+    fetch(`http://localhost:4050/users/${idUsuario}`)
+    .then(response => response.json())
+    .then(data => {
+        loadUserData(data)
+    })
+    .catch(e => setAlert("error", "Ha habido un error al realizar la peticion para el usuario: " + idUsuario + " ..."))
+}
+
+
 editUserLoadForm();
+

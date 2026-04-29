@@ -1,7 +1,9 @@
-let TOTAL_USERS = 0
+import { API_BASE_URL } from "../utils/passwordValidator.js";
+
 const loading = document.getElementById("loading")
 
 class Usuario {
+
     constructor(apellidos, email, id, nif, nombre, profile, username) {
         this.apellidos = apellidos;
         this.email = email;
@@ -10,7 +12,6 @@ class Usuario {
         this.nombre = nombre;
         this.profile = profile;
         this.username = username;
-        TOTAL_USERS++;
         this.createCard();
     }
 
@@ -59,7 +60,7 @@ class Usuario {
         const btn = document.createElement('button');
         btn.classList.add('btn', 'btn-sm', 'btn-outline-dark', 'w-100', 'mt-3');
         btn.textContent = "Gestionar Usuario";
-        btn.onclick = () => showUserInfo(this.id);
+        btn.onclick = () => window.location.href = `usuarioEspecifico.html?id=${this.id}`;
 
         // 4. Ensamblar todas las piezas
         cardBody.append(headerDiv, emailPara, btn);
@@ -70,30 +71,20 @@ class Usuario {
         container.appendChild(col);
     }
 
-    
 }
 
-const showUserInfo = (id) => {
-     window.location.href = `usuarioEspecifico.html?id=${id}`
-}
-
-const loadUsers = (users) => {
-    for (let user in users) {
-        let userInfo = users[user]
-        let userClass = new Usuario(userInfo.apellidos, userInfo.email, userInfo.id, userInfo.nif, userInfo.nombre, userInfo.profile, userInfo.username)  
-    }
-    loading.style.display = "none"
-
-}
+// Onload WEB
 
 const loadInfo = () => {
-    fetch('http://127.0.0.1:4050/users')
+    fetch(`${API_BASE_URL}/users`)
     .then(response => response.json())
-    .then(dataJSON => {
-        loadUsers(dataJSON)
+    .then(users => {
+        for (let user in users) {
+            let userInfo = users[user]
+            let userClass = new Usuario(userInfo.apellidos, userInfo.email, userInfo.id, userInfo.nif, userInfo.nombre, userInfo.profile, userInfo.username)  
+        }
+        loading.style.display = "none"
     })
 }
-
-
 
 loadInfo()
