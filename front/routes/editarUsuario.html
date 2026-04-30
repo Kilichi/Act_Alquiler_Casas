@@ -5,18 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/main.css">
-    <title>Editar Usuario · SIN FOTO NO HAY CASA</title>
+    <title>Editar usuario · Panel Azul</title>
 </head>
 
 <body>
     <header class="navbar">
         <div class="navbar-inner">
             <a class="brand" href="../index.html">
-                <span class="brand-name">SIN FOTO NO HAY CASA</span>
+                <span class="brand-name">Panel Azul</span>
             </a>
             <ul class="nav">
-                <li><a href="usuarios.html">USUARIOS</a></li>
-                <li><a href="viviendas.html">VIVIENDAS</a></li>
+                <li><a href="usuarios.html">Usuarios</a></li>
             </ul>
         </div>
     </header>
@@ -60,19 +59,12 @@
                     <label for="password">Contraseña</label>
                     <input id="password" name="password" type="password" placeholder="Cargando..." minlength="8"
                         required />
+                    <p class="help">Mínimo 8 caracteres, mayúscula, minúscula, número y símbolo (#$@!%*?&).</p>
                 </div>
 
                 <div class="field">
                     <label for="profile">Perfil</label>
-                    <select id="profile" name="profile" required>
-                    </select>
-                </div>
-
-                <div class="field">
-                    <label for="viviendaId">Vivienda (disponibles)</label>
-                    <select id="viviendaId" name="viviendaId">
-                    </select>
-                    <p class="help">Solo se muestran viviendas marcadas como disponibles.</p>
+                    <select id="profile" name="profile" required></select>
                 </div>
 
                 <div class="actions">

@@ -32,10 +32,6 @@ public class UserModel {
     @Column(name = "password")
     private String password;
 
-    @ManyToOne(optional = true) // Permite nulos
-    @JoinColumn(name = "vivienda_id", nullable = true)
-    private ViviendaModel vivienda;
-
     // Forma de hacer enum en jpa
     @Enumerated(EnumType.STRING)
     @Column(name = "profile", length = 20)

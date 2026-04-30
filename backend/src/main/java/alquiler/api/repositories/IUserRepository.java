@@ -8,5 +8,4 @@ import java.util.Optional;
 
 @Repository
 public interface IUserRepository  extends JpaRepository<UserModel, Long> {
-    Optional<UserModel> findByViviendaId(Long viviendaId);
 }

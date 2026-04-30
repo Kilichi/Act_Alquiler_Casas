@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/main.css">
-    <title>Usuario · SIN FOTO NO HAY CASA</title>
+    <title>Detalle usuario · Panel Azul</title>
 </head>
 
 <body>
@@ -13,11 +13,10 @@
     <header class="navbar">
         <div class="navbar-inner">
             <a class="brand" href="../index.html">
-                <span class="brand-name">SIN FOTO NO HAY CASA</span>
+                <span class="brand-name">Panel Azul</span>
             </a>
             <ul class="nav">
-                <li><a href="usuarios.html">USUARIOS</a></li>
-                <li><a href="viviendas.html">VIVIENDAS</a></li>
+                <li><a href="usuarios.html">Usuarios</a></li>
             </ul>
         </div>
     </header>
@@ -26,17 +25,10 @@
     <main class="page">
         <div class="card" id="userBody">
             <h2 class="card-title" id="nombre">Cargando...</h2>
-            <span class="card-subtitle badge bg-primary" id="perfil">Cargando...</span>
-
+            <span class="badge bg-primary" id="perfil">Cargando...</span>
+            <div class="card-text"><strong>Usuario: </strong><span id="username">Cargando...</span></div>
+            <div class="card-text"><strong>Email: </strong><span id="email">Cargando...</span></div>
             <div class="card-text"><strong>NIF: </strong><span id="nif">Cargando...</span></div>
-
-            <div id="seccion-vivienda">
-                <div class="card-text">
-                    <strong>Vivienda: </strong>
-                    <span id="vivienda-status">Cargando...</span>
-                </div>
-                <div id="detalles-vivienda" class="details-block"></div>
-            </div>
         </div>
     </main>
 

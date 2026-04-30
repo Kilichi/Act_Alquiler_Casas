@@ -1,9 +1,10 @@
 // Imports
-
 import { validatePassword, setAlert, clearAlert, normalizeNif, PERFILES, API_BASE_URL } from '../utils/passwordValidator.js';
 
 // Constantes
+const alertBox = document.getElementById("formAlert");
 
+// Campos del formulario
 const apellidos = document.getElementById('apellidos')
 const username = document.getElementById('username')
 const nif = document.getElementById('nif')
@@ -11,15 +12,15 @@ const email = document.getElementById('email')
 const password = document.getElementById('password')
 const nombre = document.getElementById("nombre")
 const perfil = document.getElementById("profile")
-const vivienda = document.getElementById("viviendaId")
-const alertBox = document.getElementById("formAlert");
+
+// ID del usuario
 const idUsuario = new URLSearchParams(window.location.search).get("id")
 
+// Cuando se envia el evento
 const onFormSubmit = (event) => {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
-    const viviendaIdRaw = (data.get("viviendaId") || "").toString().trim();
 
     const payload = {
         nombre: (data.get("nombre") || "").toString().trim(),
@@ -34,12 +35,6 @@ const onFormSubmit = (event) => {
     if (!validatePassword(payload.password)) {
         setAlert("error", "La contraseña no cumple los requisitos: (Al menos una mayúscula, una minúscula, un número y un carácter especial).", alertBox);
         return;
-    }
-
-    if (viviendaIdRaw && viviendaIdRaw.toLowerCase() !== "null") {
-        payload.vivienda = { id: Number(viviendaIdRaw) };
-    } else if (viviendaIdRaw.toLowerCase() === "null") {
-        payload.vivienda = { id: null }
     }
 
     fetch(`${API_BASE_URL}/users/${idUsuario}`, {
@@ -60,31 +55,11 @@ const onFormSubmit = (event) => {
     });
 };
 
+// Evento submit
 document.getElementById("editUserForm").addEventListener("submit", onFormSubmit)
-
-// Cargar selector viviendas
-
-const cargarViviendas = (idViviendaUsuario) => {
-    fetch(`${API_BASE_URL}/viviendas`)
-        .then(response => response.json())
-        .then(data => {
-            vivienda.innerHTML = `<option value="null" ${!idViviendaUsuario ? 'selected' : ''}>-- SIN VIVIENDA ASIGNADA --</option>`;
-            data.forEach(v => {
-                console.log(v.id == idViviendaUsuario)
-                const isSelected = (v.id == idViviendaUsuario) ? 'selected' : '';
-                vivienda.innerHTML += `<option value="${v.id}" ${isSelected}>${v.direccion}</option>`;
-            });
-
-
-        })
-        .catch(() => {
-            setAlert("error", "Error al cargar las viviendas...")
-        });
-}
 
 
 // Introducir valores al DOM
-
 const loadUserData = (inputData) => {
     apellidos.value = inputData.apellidos
     username.value = inputData.username
@@ -92,22 +67,23 @@ const loadUserData = (inputData) => {
     email.value = inputData.email
     password.value = inputData.password
     nombre.value = inputData.nombre
-    PERFILES.map(perfilArray => {
-        let selected = inputData.profile == perfilArray ? "selected" : "";
-        perfil.innerHTML += `
-        	<option value="${perfilArray}" ${selected} >${perfilArray}</option>
-      	`
-    })
-    console.log(inputData)
-    cargarViviendas(inputData.vivienda.id);
 
+    if (perfil) {
+        perfil.innerHTML = "";
+        PERFILES.forEach((perfilValue) => {
+            const opt = document.createElement("option");
+            opt.value = perfilValue;
+            opt.textContent = perfilValue;
+            if (inputData.profile === perfilValue) opt.selected = true;
+            perfil.appendChild(opt);
+        });
+    }
 }
 
 // Onload funcion
-
 const editUserLoadForm = () => {
     clearAlert(alertBox)
-    fetch(`http://localhost:4050/users/${idUsuario}`)
+    fetch(`${API_BASE_URL}/users/${idUsuario}`)
     .then(response => response.json())
     .then(data => {
         loadUserData(data)
@@ -115,6 +91,6 @@ const editUserLoadForm = () => {
     .catch(e => setAlert("error", "Ha habido un error al realizar la peticion para el usuario: " + idUsuario + " ..."))
 }
 
-
+// Onload funcion
 editUserLoadForm();
 

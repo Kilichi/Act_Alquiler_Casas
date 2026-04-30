@@ -1,14 +1,11 @@
 package alquiler.api.services;
 
 import alquiler.api.models.UserModel;
-import alquiler.api.models.ViviendaModel;
 import alquiler.api.repositories.IUserRepository;
-import alquiler.api.repositories.IViviendaRepository;
 import alquiler.api.utils.PasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -17,9 +14,6 @@ public class UserService implements IUserService {
 
     @Autowired
     IUserRepository userRepository;
-
-    @Autowired
-    IViviendaRepository viviendaRepository;
 
     @Override
     public UserModel createUser(UserModel usuario) {
@@ -65,16 +59,6 @@ public class UserService implements IUserService {
                     throw new IllegalArgumentException("La contraseña no cumple los requisitos de seguridad.");
                 } else {
                     dbUser.setPassword(usuario.getPassword());
-                }
-            }
-            if (usuario.getVivienda() == null) {
-                dbUser.setVivienda(null);
-            } else {
-                Long idVivienda = usuario.getVivienda().getId();
-                if (idVivienda != null) {
-                    dbUser.setVivienda(usuario.getVivienda());
-                } else {
-                    dbUser.setVivienda(null);
                 }
             }
             if(usuario.getProfile() != null) {
