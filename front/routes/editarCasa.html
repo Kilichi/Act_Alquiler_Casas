@@ -31,8 +31,15 @@
             <form id="nuevaCasaForm" class="form" autocomplete="off">
                 <div class="field">
                     <label for="direccion">Dirección</label>
-                    <input id="direccion" id="direccion" name="direccion" type="text"
+                    <input id="direccion" name="direccion" type="text"
                         placeholder="Ej. Calle Mayor 12, 3ºB" required />
+                </div>
+
+                <div class="field">
+                    <label for="usuarioId">Usuario</label>
+                    <select id="usuarioId" name="usuarioId">
+                        <option value="null" selected>-- SIN USUARIO --</option>
+                    </select>
                 </div>
 
                 <div class="field">

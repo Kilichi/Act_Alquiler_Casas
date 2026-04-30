@@ -60,9 +60,7 @@ const onFormSubmit = (event) => {
     });
 };
 
-
 document.getElementById("editUserForm").addEventListener("submit", onFormSubmit)
-
 
 // Cargar selector viviendas
 
@@ -72,6 +70,7 @@ const cargarViviendas = (idViviendaUsuario) => {
         .then(data => {
             vivienda.innerHTML = `<option value="null" ${!idViviendaUsuario ? 'selected' : ''}>-- SIN VIVIENDA ASIGNADA --</option>`;
             data.forEach(v => {
+                console.log(v.id == idViviendaUsuario)
                 const isSelected = (v.id == idViviendaUsuario) ? 'selected' : '';
                 vivienda.innerHTML += `<option value="${v.id}" ${isSelected}>${v.direccion}</option>`;
             });
@@ -99,7 +98,8 @@ const loadUserData = (inputData) => {
         	<option value="${perfilArray}" ${selected} >${perfilArray}</option>
       	`
     })
-    cargarViviendas(viviendaId);
+    console.log(inputData)
+    cargarViviendas(inputData.vivienda.id);
 
 }
 
