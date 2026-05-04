@@ -1,4 +1,4 @@
-package alquiler.api.utils;
+package com.examen.jps.utils;
 
 public class PasswordValidator {
     private static final String PASSWORD_PATTERN =

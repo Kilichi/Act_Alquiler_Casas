@@ -1,4 +1,4 @@
-package alquiler.api.models;
+package com.examen.jps.models;
 
 import jakarta.persistence.*;
 import lombok.Getter;

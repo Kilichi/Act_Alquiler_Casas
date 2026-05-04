@@ -1,5 +1,5 @@
 // Imports
-import { validatePassword, setAlert, clearAlert, normalizeNif, PERFILES, API_BASE_URL } from '../utils/passwordValidator.js';
+import { validatePassword, setAlert, clearAlert, normalizeNif, PERFILES, API_BASE_URL } from '../utils/utils.js';
 
 // Constantes
 const alertBox = document.getElementById("formAlert");

@@ -1,4 +1,4 @@
-package alquiler.api.config;
+package com.examen.jps.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

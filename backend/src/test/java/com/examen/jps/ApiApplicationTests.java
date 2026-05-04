@@ -1,4 +1,4 @@
-package alquiler.api;
+package com.examen.jps;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

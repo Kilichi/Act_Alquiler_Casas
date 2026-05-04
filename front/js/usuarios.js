@@ -1,5 +1,5 @@
 // Imports
-import { API_BASE_URL } from "../utils/passwordValidator.js";
+import { API_BASE_URL } from "../utils/utils.js";
 
 // Constantes
 const loading = document.getElementById("loading")

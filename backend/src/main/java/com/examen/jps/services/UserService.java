@@ -1,8 +1,8 @@
-package alquiler.api.services;
+package com.examen.jps.services;
 
-import alquiler.api.models.UserModel;
-import alquiler.api.repositories.IUserRepository;
-import alquiler.api.utils.PasswordValidator;
+import com.examen.jps.models.UserModel;
+import com.examen.jps.repositories.IUserRepository;
+import com.examen.jps.utils.PasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

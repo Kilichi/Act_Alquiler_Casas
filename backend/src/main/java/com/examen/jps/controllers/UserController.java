@@ -1,7 +1,7 @@
-package alquiler.api.controllers;
+package com.examen.jps.controllers;
 
-import alquiler.api.models.UserModel;
-import alquiler.api.services.IUserService;
+import com.examen.jps.models.UserModel;
+import com.examen.jps.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

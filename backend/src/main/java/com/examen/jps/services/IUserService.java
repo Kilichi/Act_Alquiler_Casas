@@ -1,6 +1,6 @@
-package alquiler.api.services;
+package com.examen.jps.services;
 
-import alquiler.api.models.UserModel;
+import com.examen.jps.models.UserModel;
 
 import java.util.ArrayList;
 import java.util.Optional;

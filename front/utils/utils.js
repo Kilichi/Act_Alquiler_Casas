@@ -1,5 +1,5 @@
 // Constantes
-export const API_BASE_URL = `http://localhost:3300`
+export const API_BASE_URL = `http://localhost:4008`
 
 // Constantes de perfiles
 export const PERFILES = ["USER", "ADMIN", "GUEST"]
